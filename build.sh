@@ -35,10 +35,24 @@ die() {
 	exit 1
 }
 
-cd $(dirname $(which $0))
-branch=`git rev-parse --abbrev-ref HEAD`
-version=$(TZ='Europe/Berlin' date --date "$(git show -s --format=@%ct HEAD)" '+%Y.%m.%d-%H:%M')
+cd $(dirname $(which $0)):w
 
+mk_version() {
+	local timestamp= version= yesterday= extraversion=
+	timestamp=$(git show -s --format=%ci HEAD)
+	version=$(TZ='Europe/Berlin' date --date "$timestamp" '+%Y.%m.%d')
+
+	yesterday=$(date -d "`git show -s --format=%ci HEAD` - 1 day" +"%F")
+	extraversion=$(git rev-list --since $yesterday stable --count)
+	let extraversion=$extraversion-1
+	if [ $extraversion -ne 0 ]; then
+		version=${version}.${extraversion}
+	fi
+	echo "$version"
+}
+
+branch=`git rev-parse --abbrev-ref HEAD`
+version=$(mk_version)
 if [ "$branch" = master ]; then
 	branch=
 fi
