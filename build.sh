@@ -6,6 +6,8 @@
 UPSTREAM_DIR=/var/www/dl.ffks.de/htdocs/images
 RELEASE=2014.4.x
 
+cd $(dirname $(which $0))
+
 build_images() {
 	local gluon_branch= version=
 	[ "$1" ] && gluon_branch="GLUON_BRANCH=$1"
@@ -35,16 +37,14 @@ die() {
 	exit 1
 }
 
-cd $(dirname $(which $0)):w
-
 mk_version() {
 	local timestamp= version= yesterday= extraversion=
 	timestamp=$(git show -s --format=%ci HEAD)
 	version=$(TZ='Europe/Berlin' date --date "$timestamp" '+%Y.%m.%d')
 
 	yesterday=$(date -d "`git show -s --format=%ci HEAD` - 1 day" +"%F")
-	extraversion=$(git rev-list --since $yesterday stable --count)
-	let extraversion=$extraversion-1
+	extraversion=$(git rev-list --since $yesterday HEAD --count)
+	extraversion=`expr $extraversion - 1`
 	if [ $extraversion -ne 0 ]; then
 		version=${version}.${extraversion}
 	fi
