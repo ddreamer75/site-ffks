@@ -12,8 +12,8 @@ build_images() {
 	local gluon_branch= version=
 	[ "$1" ] && gluon_branch="GLUON_BRANCH=$1"
 	[ "$2" ] && release="GLUON_RELEASE=$2"
-	make update && \
-	make clean && \
+	make V=s update && \
+	make V=s clean && \
 	make V=s $gluon_branch $release
 }
 
