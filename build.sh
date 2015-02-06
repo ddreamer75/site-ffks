@@ -48,8 +48,8 @@ cd ..
 [ "$(git rev-parse --abbrev-ref HEAD)" = "$RELEASE" ] || die "We're building on $RELEASE."
 
 build_images $branch $version || die "Building images failed"
-if [ "$branch" -a "$2" ]; then
-	sign_images $branch $2 || die "Signing manifest failed"
+if [ "$branch" -a "$1" ]; then
+	sign_images $branch $1 || die "Signing manifest failed"
 	publish_images $branch || die "Publishing images failed"
 else
 	echo "Warning: Images not signed/published" >&2
