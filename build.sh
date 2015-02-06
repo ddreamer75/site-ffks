@@ -12,7 +12,7 @@ build_images() {
 	[ "$2" ] && release="GLUON_RELEASE=$2"
 	make update && \
 	make clean && \
-	make $gluon_branch $release
+	make V=s $gluon_branch $release
 }
 
 sign_images() {
@@ -23,10 +23,11 @@ sign_images() {
 
 publish_images() {
 	local branch=$1
+	mkdir -p ${UPSTREAM_DIR}/${branch} && \
 	cp -r images ${UPSTREAM_DIR}/${branch}.new && \
 	mv ${UPSTREAM_DIR}/${branch} ${UPSTREAM_DIR}/${branch}.old && \
 	mv ${UPSTREAM_DIR}/${branch}.new ${UPSTREAM_DIR}/${branch} && \
-	rm ${UPSTREAM_DIR}/${branch}.old
+	rm -r ${UPSTREAM_DIR}/${branch}.old
 }
 
 die() {
