@@ -18,9 +18,9 @@ build_images() {
 }
 
 sign_images() {
-	local gluon_branch="GLUON_BRANCH=$1" sign_key=$2
+	local gluon_branch="GLUON_BRANCH=$1" branch=$1 sign_key=$2
 	make manifest $gluon_branch && \
-	contrib/sign.sh "$sign_key" "images/sysupgrade/${gluon_branch}.manifest"
+	contrib/sign.sh "$sign_key" "images/sysupgrade/${branch}.manifest"
 }
 
 publish_images() {
