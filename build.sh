@@ -4,7 +4,7 @@
 # We use plain shellscript like real men do!
 
 UPSTREAM_DIR=/var/www/dl.ffks.de/htdocs/images
-RELEASE=2014.4.x
+RELEASE=v2015.1.x
 
 cd $(dirname $(which $0))
 
