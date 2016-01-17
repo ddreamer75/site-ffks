@@ -9,6 +9,7 @@ GLUON_SITE_PACKAGES := \
 	gluon-alfred \
 	gluon-announced \
 	gluon-autoupdater \
+        gluon-config-mode-core \
 	gluon-config-mode-hostname \
 	gluon-config-mode-autoupdater \
 	gluon-config-mode-mesh-vpn \
@@ -19,9 +20,11 @@ GLUON_SITE_PACKAGES := \
 	gluon-luci-admin \
 	gluon-luci-autoupdater \
 	gluon-luci-portconfig \
+	gluon-luci-wifi-config \
 	gluon-next-node \
 	gluon-mesh-vpn-fastd \
 	gluon-radvd \
+	gluon-setup-mode \
 	gluon-status-page \
 	iwinfo \
 	iptables \
@@ -48,3 +51,6 @@ GLUON_RELEASE ?= $(DEFAULT_GLUON_RELEASE)
 
 # Default priority for updates.
 GLUON_PRIORITY ?= 0
+
+# Languages to include
+GLUON_LANGS ?= de en
