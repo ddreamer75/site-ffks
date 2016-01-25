@@ -5,7 +5,7 @@
 #		The gluon-mesh-batman-adv-* package must come first because of the dependency resolution
 
 GLUON_SITE_PACKAGES := \
-	gluon-mesh-batman-adv-14 \
+	gluon-mesh-batman-adv-15 \
 	gluon-alfred \
 	gluon-announced \
 	gluon-autoupdater \
@@ -36,7 +36,7 @@ GLUON_SITE_PACKAGES := \
 #			opkg compare-versions "$1" '>>' "$2"
 #		to decide if a version is newer or not.
 
-DEFAULT_GLUON_RELEASE := 0.0
+DEFAULT_GLUON_RELEASE := v2016.1-1
 
 
 ##	GLUON_RELEASE
@@ -53,4 +53,4 @@ GLUON_RELEASE ?= $(DEFAULT_GLUON_RELEASE)
 GLUON_PRIORITY ?= 0
 
 # Languages to include
-GLUON_LANGS ?= de en
+GLUON_LANGS ?= de en fr
