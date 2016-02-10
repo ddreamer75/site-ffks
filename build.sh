@@ -40,5 +40,3 @@ sed -i '/CONFIG_PATA_ATIIXP=y/d' openwrt/target/linux/x86/generic/config-3.10;
 # sign images
 make manifest $branch && \
 contrib/sign.sh $6 "images/sysupgrade/$1.manifest"
-
-cd site
