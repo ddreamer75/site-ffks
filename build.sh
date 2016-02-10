@@ -1,71 +1,44 @@
 #! /bin/sh -x
-#
-# NO FANCY STUFF HERE!
-# We use plain shellscript like real men do!
 
-UPSTREAM_DIR=/var/www/dl.ffks.de/htdocs/images
-RELEASE=v2015.1.x
-
-cd $(dirname $(which $0))
-
-build_images() {
-	local gluon_branch= version=
-	[ "$1" ] && gluon_branch="GLUON_BRANCH=$1"
-	[ "$2" ] && release="GLUON_RELEASE=$2"
-	make V=s update && \
-	make V=s clean && \
-	make V=s $gluon_branch $release
-}
-
-sign_images() {
-	local gluon_branch="GLUON_BRANCH=$1" branch=$1 sign_key=$2
-	make manifest $gluon_branch && \
-	contrib/sign.sh "$sign_key" "images/sysupgrade/${branch}.manifest"
-}
-
-publish_images() {
-	local branch=$1
-	mkdir -p ${UPSTREAM_DIR}/${branch} && \
-	cp -r images ${UPSTREAM_DIR}/${branch}.new && \
-	mv ${UPSTREAM_DIR}/${branch} ${UPSTREAM_DIR}/${branch}.old && \
-	mv ${UPSTREAM_DIR}/${branch}.new ${UPSTREAM_DIR}/${branch} && \
-	rm -r ${UPSTREAM_DIR}/${branch}.old
-}
-
-die() {
-	echo $@ >&2
-	exit 1
-}
-
-mk_version() {
-	local timestamp= version= yesterday= extraversion=
-	timestamp=$(git show -s --format=%ci HEAD)
-	version=$(TZ='Europe/Berlin' date --date "$timestamp" '+%Y.%m.%d')
-
-	yesterday=$(date -d "`git show -s --format=%ci HEAD` - 1 day" +"%F")
-	extraversion=$(git rev-list --since $yesterday HEAD --count)
-	extraversion=`expr $extraversion - 1`
-	if [ $extraversion -ne 0 ]; then
-		version=${version}.${extraversion}
-	fi
-	echo "$version"
-}
-
-branch=`git rev-parse --abbrev-ref HEAD`
-version=$(mk_version)
-if [ "$branch" = master ]; then
-	branch=
+if [ $# -ne 6 ]; then
+ echo "use: ./build.sh <branch> <gluon release> <build number> <broken>\
+ <gracetime in days> </path/to/signing_key>"
+ echo "example: ./build.sh stable v2015.1.2 1 0 5 /etc/sign_key"
+ exit 1;
 fi
 
+
+branch="GLUON_BRANCH=$1"
+broken="BROKEN=$4"
+prio="PRIORITY=$5"
+cores=$(nproc)
+release="GLUON_RELEASE=$2-$3"
+
+# update repos
+git pull 
+git checkout $1
 cd ..
+git pull
+git checkout $2
 
-# check if the release is right:
-[ "$(git rev-parse --abbrev-ref HEAD)" = "$RELEASE" ] || die "We're building on $RELEASE."
+# build targets
+#make -j$cores update && \
+#make -j$cores clean GLUON_TARGET=ar71xx-generic && \
+#make -j$cores clean GLUON_TARGET=ar71xx-nand && \
+#make -j$cores clean GLUON_TARGET=mpc85xx-generic && \
+#make -j$cores clean GLUON_TARGET=x86-kvm_guest && \
+#make -j$cores clean GLUON_TARGET=x86-generic && \
+#make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-generic && \
+#make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-nand && \
+#make -j$cores $branch $release $broken $prio GLUON_TARGET=mpc85xx-generic && \
+#make -j$cores $branch $release $broken $prio GLUON_TARGET=x86-kvm_guest && \
+# include cf-card support for futros
+echo "CONFIG_PATA_ATIIXP=y" >> openwrt/target/linux/x86/generic/config-3.10;
+make -j$cores $branch $release $broken $prio GLUON_TARGET=x86-generic;
+sed -i '/CONFIG_PATA_ATIIXP=y/d' openwrt/target/linux/x86/generic/config-3.10;
 
-build_images $branch $version || die "Building images failed"
-if [ "$branch" -a "$1" ]; then
-	sign_images $branch $1 || die "Signing manifest failed"
-	publish_images $branch || die "Publishing images failed"
-else
-	echo "Warning: Images not signed/published" >&2
-fi
+# sign images
+make manifest $branch && \
+contrib/sign.sh $6 "images/sysupgrade/$1.manifest"
+
+cd site
