@@ -22,16 +22,16 @@ git pull
 git checkout $2
 
 # build targets
-#make -j$cores update && \
-#make -j$cores clean GLUON_TARGET=ar71xx-generic && \
-#make -j$cores clean GLUON_TARGET=ar71xx-nand && \
-#make -j$cores clean GLUON_TARGET=mpc85xx-generic && \
-#make -j$cores clean GLUON_TARGET=x86-kvm_guest && \
-#make -j$cores clean GLUON_TARGET=x86-generic && \
-#make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-generic && \
-#make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-nand && \
-#make -j$cores $branch $release $broken $prio GLUON_TARGET=mpc85xx-generic && \
-#make -j$cores $branch $release $broken $prio GLUON_TARGET=x86-kvm_guest && \
+make -j$cores update && \
+make -j$cores clean GLUON_TARGET=ar71xx-generic && \
+make -j$cores clean GLUON_TARGET=ar71xx-nand && \
+make -j$cores clean GLUON_TARGET=mpc85xx-generic && \
+make -j$cores clean GLUON_TARGET=x86-kvm_guest && \
+make -j$cores clean GLUON_TARGET=x86-generic && \
+make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-generic && \
+make -j$cores $branch $release $broken $prio GLUON_TARGET=ar71xx-nand && \
+make -j$cores $branch $release $broken $prio GLUON_TARGET=mpc85xx-generic && \
+make -j$cores $branch $release $broken $prio GLUON_TARGET=x86-kvm_guest && \
 # include cf-card support for futros
 echo "CONFIG_PATA_ATIIXP=y" >> openwrt/target/linux/x86/generic/config-3.10;
 make -j$cores $branch $release $broken $prio GLUON_TARGET=x86-generic;
