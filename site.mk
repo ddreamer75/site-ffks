@@ -5,11 +5,10 @@
 #		The gluon-mesh-batman-adv-* package must come first because of the dependency resolution
 
 GLUON_SITE_PACKAGES := \
-	gluon-mesh-batman-adv-15 \
+	gluon-mesh-batman-adv-14 \
 	gluon-alfred \
-	gluon-announced \
 	gluon-autoupdater \
-        gluon-config-mode-core \
+	gluon-config-mode-core \
 	gluon-config-mode-hostname \
 	gluon-config-mode-autoupdater \
 	gluon-config-mode-mesh-vpn \
@@ -24,11 +23,29 @@ GLUON_SITE_PACKAGES := \
 	gluon-next-node \
 	gluon-mesh-vpn-fastd \
 	gluon-radvd \
+	gluon-respondd \
 	gluon-setup-mode \
 	gluon-status-page \
+	gluon-v14tov15-helper \
 	iwinfo \
 	iptables \
 	haveged
+
+# add offline ssid only if the target has wifi device
+ifeq ($(GLUON_TARGET),ar71xx-generic)
+GLUON_SITE_PACKAGES += \
+	gluon-ssid-changer
+endif
+
+ifeq ($(GLUON_TARGET),ar71xx-nand)
+GLUON_SITE_PACKAGES += \
+	gluon-ssid-changer
+endif
+
+ifeq ($(GLUON_TARGET),mpc85xx-generic)
+GLUON_SITE_PACKAGES += \
+	gluon-ssid-changer
+endif
 
 ##	DEFAULT_GLUON_RELEASE
 #		version string to use for images
@@ -37,7 +54,6 @@ GLUON_SITE_PACKAGES := \
 #		to decide if a version is newer or not.
 
 DEFAULT_GLUON_RELEASE := v2016.1-1
-
 
 ##	GLUON_RELEASE
 #		call make with custom GLUON_RELEASE flag, to use your own release version scheme.
