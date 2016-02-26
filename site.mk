@@ -45,6 +45,7 @@ endif
 ifeq ($(GLUON_TARGET),mpc85xx-generic)
 GLUON_SITE_PACKAGES += \
 	gluon-ssid-changer
+endif
 
 # add network drivers and usb stuff only to x86-generic
 # (where disk space probably doesn't matter)
