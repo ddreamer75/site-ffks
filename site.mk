@@ -47,6 +47,30 @@ GLUON_SITE_PACKAGES += \
 	gluon-ssid-changer
 endif
 
+# RaspberryPi Model 1B
+ifeq ($(GLUON_TARGET),brcm2708-bcm2708)
+GLUON_SITE_PACKAGES += \
+	gluon-ssid-changer \
+	kmod-ath \
+	kmod-ath9k-common \
+	kmod-ath9k-htc \
+	kmod-cfg80211 \
+	kmod-crypto-aes \
+	kmod-crypto-arc4 \
+	kmod-gpio-button-hotplug \
+	kmod-mac80211 \
+	swconfig \
+	iw \
+	kmod-usb-core \
+	kmod-usb2 \
+	kmod-usb-hid \
+	kmod-usb-net \
+	kmod-usb-net-asix \
+	kmod-usb-net-dm9601-ether \
+	kmod-rtlwifi-usb \
+	kmod-rtlwifi
+endif
+
 # add network drivers and usb stuff only to x86-generic
 # (where disk space probably doesn't matter)
 ifeq ($(GLUON_TARGET),x86-generic)
