@@ -93,7 +93,7 @@ endif
 #			opkg compare-versions "$1" '>>' "$2"
 #		to decide if a version is newer or not.
 
-DEFAULT_GLUON_RELEASE := v2016.1-1
+DEFAULT_GLUON_RELEASE := v2016.1.5
 
 ##	GLUON_RELEASE
 #		call make with custom GLUON_RELEASE flag, to use your own release version scheme.
@@ -110,3 +110,7 @@ GLUON_PRIORITY ?= 0
 
 # Languages to include
 GLUON_LANGS ?= de en fr
+
+# Print the default release (for external scripts)
+print_default_release:
+	@echo $(DEFAULT_GLUON_RELEASE)
