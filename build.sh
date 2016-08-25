@@ -1,6 +1,8 @@
 #!/bin/bash
 # Build the gluon release specified by the tag name in site.mk
-# and the checked out branch in this repo
+# and the checked out branch in this repo.
+#
+# First argument is taken to generate a sopel bot log.
 
 #
 # VARIABLES
@@ -10,6 +12,7 @@ cur_dir=$(dirname $(readlink -f "${0}"))
 release=$(make -f "${cur_dir}/site.mk" print_default_release)
 branch=$(git rev-parse --abbrev-ref HEAD)
 gluon_broken="BROKEN=1"
+bot_log="${1}"
 
 # TODO Get this information from the make files
 declare -a gluon_targets=(\
@@ -34,10 +37,16 @@ declare -a gluon_targets_broken=(\
 # FUNCTIONS
 #
 
+# Builds images for all targets
+#
+#   ${1} branch
+#   ${2} version
 build_images() {
     cd "${cur_dir}/.." || die "Could not change directory to ${cur_dir}/.."
     [[ "${2}" ]] && gluon_release="GLUON_RELEASE=${2}" || die "No GLUON_RELEASE given"
     make V=s update || die "Could not update repository"
+
+    bot_log "Starting build for branch '${1}' version '${2}'..."
 
     # Clean repo for all builds
     # TODO This seems to be deprecated?!
@@ -47,6 +56,7 @@ build_images() {
 
     # Build for non-broken targets
     for target in "${gluon_targets[@]}"; do
+        bot_log "Building target ${target}..."
         make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} || die "Error while building target ${target}"
     done
 
@@ -59,7 +69,12 @@ build_images() {
     fi
 }
 
+bot_log() {
+    [[ -z "${bot_log}" ]] || echo "${@}" >> "${bot_log}"
+}
+
 die() {
+    bot_log "${@}"
     echo "${@}" >&2
     exit 1
 }
@@ -83,3 +98,5 @@ get_version() {
 
 build_images "${branch}" "$(get_version)" || die "Building images failed"
 echo "Warning: Images not yet signed/published" >&2
+bot_log "Finished building all targets"
+bot_log "Warning: Images not yet signed/published"
