@@ -12,6 +12,9 @@ cur_dir=$(dirname $(readlink -f "${0}"))
 release=$(make -f "${cur_dir}/site.mk" print_default_release)
 branch=$(git rev-parse --abbrev-ref HEAD)
 gluon_broken="BROKEN=1"
+job_count=$(nproc)
+let "job_count++"
+
 bot_log="${1}"
 
 # TODO Get this information from the make files
@@ -57,14 +60,14 @@ build_images() {
     # Build for non-broken targets
     for target in "${gluon_targets[@]}"; do
         bot_log "Building target ${target}..."
-        make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} || die "Error while building target ${target}"
+        make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} -j=${job_count} || die "Error while building target ${target}"
     done
 
     # Build for broken targets
     if [[ "${1}" != "stable" ]]; then
         echo "Building additional targets with ${gluon_broken}, because not on stable branch."
         for target in "${gluon_targets_broken[@]}"; do
-            make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} || die "Error while building target ${target}"
+            make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} -j=${job_count} || die "Error while building target ${target}"
         done
     fi
 }
