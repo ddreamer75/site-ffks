@@ -60,14 +60,14 @@ build_images() {
     # Build for non-broken targets
     for target in "${gluon_targets[@]}"; do
         bot_log "Building target ${target}..."
-        make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} -j=${job_count} || die "Error while building target ${target}"
+        make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
     done
 
     # Build for broken targets
     if [[ "${1}" != "stable" ]]; then
         echo "Building additional targets with ${gluon_broken}, because not on stable branch."
         for target in "${gluon_targets_broken[@]}"; do
-            make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} -j=${job_count} || die "Error while building target ${target}"
+            make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
         done
     fi
 }
