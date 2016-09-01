@@ -47,27 +47,27 @@ declare -a gluon_targets_broken=(\
 build_images() {
     cd "${cur_dir}/.." || die "Could not change directory to ${cur_dir}/.."
     [[ "${2}" ]] && gluon_release="GLUON_RELEASE=${2}" || die "No GLUON_RELEASE given"
-    make V=s update || die "Could not update repository"
+    make update || die "Could not update repository"
 
     bot_log "Starting build for branch '${1}' version '${2}'..."
 
     # Clean repo for all builds
     # TODO This seems to be deprecated?!
     #for target in {"${gluon_targets[@]}","${gluon_targets_broken[@]}"}; do
-    #    make V=s clean GLUON_TARGET=${target} || die "Error while cleaning target ${target}"
+    #    make clean GLUON_TARGET=${target} || die "Error while cleaning target ${target}"
     #done
 
     # Build for non-broken targets
     for target in "${gluon_targets[@]}"; do
         bot_log "Building target ${target}..."
-        make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
+        make clean GLUON_TARGET=${target} && make ${gluon_release} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
     done
 
     # Build for broken targets
     if [[ "${1}" != "stable" ]]; then
         echo "Building additional targets with ${gluon_broken}, because not on stable branch."
         for target in "${gluon_targets_broken[@]}"; do
-            make V=s clean GLUON_TARGET=${target} && make V=s ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
+            make clean GLUON_TARGET=${target} && make ${gluon_release} ${gluon_broken} GLUON_TARGET=${target} -j${job_count} || die "Error while building target ${target}"
         done
     fi
 }
