@@ -6,7 +6,6 @@
 
 GLUON_SITE_PACKAGES := \
 	gluon-mesh-batman-adv-15 \
-	gluon-alfred \
 	gluon-autoupdater \
 	gluon-config-mode-core \
 	gluon-config-mode-hostname \
@@ -26,7 +25,6 @@ GLUON_SITE_PACKAGES := \
 	gluon-respondd \
 	gluon-setup-mode \
 	gluon-status-page \
-	gluon-v14tov15-helper \
 	iwinfo \
 	iptables \
 	haveged
