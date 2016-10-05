@@ -5,7 +5,6 @@
 #		The gluon-mesh-batman-adv-* package must come first because of the dependency resolution
 
 GLUON_SITE_PACKAGES := \
-	gluon-mesh-batman-adv-15 \
 	gluon-autoupdater \
 	gluon-config-mode-core \
 	gluon-config-mode-hostname \
@@ -18,37 +17,42 @@ GLUON_SITE_PACKAGES := \
 	gluon-luci-admin \
 	gluon-luci-autoupdater \
 	gluon-luci-portconfig \
-	gluon-luci-wifi-config \
-	gluon-next-node \
+	gluon-mesh-batman-adv-15 \
 	gluon-mesh-vpn-fastd \
+	gluon-next-node \
 	gluon-radvd \
 	gluon-respondd \
 	gluon-setup-mode \
 	gluon-status-page \
+	haveged \
 	iwinfo \
-	iptables \
-	haveged
+	iptables
 
 # add offline ssid only if the target has wifi device
-ifeq ($(GLUON_TARGET),ar71xx-generic)
-GLUON_SITE_PACKAGES += \
-	gluon-ssid-changer
+ifeq "$(GLUON_TARGET)" "ar71xx-generic"
+ADD_WIFI_PKGS = yes
 endif
 
-ifeq ($(GLUON_TARGET),ar71xx-nand)
-GLUON_SITE_PACKAGES += \
-	gluon-ssid-changer
+ifeq "$(GLUON_TARGET)" "ar71xx-nand"
+ADD_WIFI_PKGS = yes
 endif
 
-ifeq ($(GLUON_TARGET),mpc85xx-generic)
+ifeq "$(GLUON_TARGET)" "mpc85xx-generic"
+ADD_WIFI_PKGS = yes
+endif
+
+ifeq "$(ADD_WIFI_PKGS)" "yes"
 GLUON_SITE_PACKAGES += \
+	gluon-luci-wifi-config \
 	gluon-ssid-changer
 endif
 
 # RaspberryPi Model 1B
 ifeq ($(GLUON_TARGET),brcm2708-bcm2708)
 GLUON_SITE_PACKAGES += \
+	gluon-luci-wifi-config \
 	gluon-ssid-changer \
+	iw \
 	kmod-ath \
 	kmod-ath9k-common \
 	kmod-ath9k-htc \
@@ -57,8 +61,6 @@ GLUON_SITE_PACKAGES += \
 	kmod-crypto-arc4 \
 	kmod-gpio-button-hotplug \
 	kmod-mac80211 \
-	swconfig \
-	iw \
 	kmod-usb-core \
 	kmod-usb2 \
 	kmod-usb-hid \
@@ -66,22 +68,23 @@ GLUON_SITE_PACKAGES += \
 	kmod-usb-net-asix \
 	kmod-usb-net-dm9601-ether \
 	kmod-rtlwifi-usb \
-	kmod-rtlwifi
+	kmod-rtlwifi \
+	swconfig
 endif
 
 # add network drivers and usb stuff only to x86-generic
 # (where disk space probably doesn't matter)
 ifeq ($(GLUON_TARGET),x86-generic)
 GLUON_SITE_PACKAGES += \
+	kmod-forcedeth \
+	kmod-sky2 \
+	kmod-r8169 \
 	kmod-usb-core \
 	kmod-usb2 \
 	kmod-usb-hid \
 	kmod-usb-net \
 	kmod-usb-net-asix \
 	kmod-usb-net-dm9601-ether \
-	kmod-sky2 \
-	kmod-r8169 \
-	kmod-forcedeth \
 	kmod-8139too
 endif
 
@@ -91,7 +94,7 @@ endif
 #			opkg compare-versions "$1" '>>' "$2"
 #		to decide if a version is newer or not.
 
-DEFAULT_GLUON_RELEASE := v2016.1.5
+DEFAULT_GLUON_RELEASE := v2016.2
 
 ##	GLUON_RELEASE
 #		call make with custom GLUON_RELEASE flag, to use your own release version scheme.
