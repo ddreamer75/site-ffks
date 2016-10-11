@@ -5,8 +5,6 @@
 #		The gluon-mesh-batman-adv-* package must come first because of the dependency resolution
 
 GLUON_SITE_PACKAGES := \
-	gluon-mesh-batman-adv-14 \
-	gluon-alfred \
 	gluon-autoupdater \
 	gluon-config-mode-core \
 	gluon-config-mode-hostname \
@@ -19,32 +17,75 @@ GLUON_SITE_PACKAGES := \
 	gluon-luci-admin \
 	gluon-luci-autoupdater \
 	gluon-luci-portconfig \
-	gluon-luci-wifi-config \
-	gluon-next-node \
+	gluon-mesh-batman-adv-15 \
 	gluon-mesh-vpn-fastd \
+	gluon-next-node \
 	gluon-radvd \
 	gluon-respondd \
 	gluon-setup-mode \
 	gluon-status-page \
-	gluon-v14tov15-helper \
+	haveged \
 	iwinfo \
-	iptables \
-	haveged
+	iptables
 
 # add offline ssid only if the target has wifi device
-ifeq ($(GLUON_TARGET),ar71xx-generic)
+ifeq "$(GLUON_TARGET)" "ar71xx-generic"
+ADD_WIFI_PKGS = yes
+endif
+
+ifeq "$(GLUON_TARGET)" "ar71xx-nand"
+ADD_WIFI_PKGS = yes
+endif
+
+ifeq "$(GLUON_TARGET)" "mpc85xx-generic"
+ADD_WIFI_PKGS = yes
+endif
+
+ifeq "$(ADD_WIFI_PKGS)" "yes"
 GLUON_SITE_PACKAGES += \
+	gluon-luci-wifi-config \
 	gluon-ssid-changer
 endif
 
-ifeq ($(GLUON_TARGET),ar71xx-nand)
+# RaspberryPi Model 1B
+ifeq ($(GLUON_TARGET),brcm2708-bcm2708)
 GLUON_SITE_PACKAGES += \
-	gluon-ssid-changer
+	gluon-luci-wifi-config \
+	gluon-ssid-changer \
+	iw \
+	kmod-ath \
+	kmod-ath9k-common \
+	kmod-ath9k-htc \
+	kmod-cfg80211 \
+	kmod-crypto-aes \
+	kmod-crypto-arc4 \
+	kmod-gpio-button-hotplug \
+	kmod-mac80211 \
+	kmod-usb-core \
+	kmod-usb2 \
+	kmod-usb-hid \
+	kmod-usb-net \
+	kmod-usb-net-asix \
+	kmod-usb-net-dm9601-ether \
+	kmod-rtlwifi-usb \
+	kmod-rtlwifi \
+	swconfig
 endif
 
-ifeq ($(GLUON_TARGET),mpc85xx-generic)
+# add network drivers and usb stuff only to x86-generic
+# (where disk space probably doesn't matter)
+ifeq ($(GLUON_TARGET),x86-generic)
 GLUON_SITE_PACKAGES += \
-	gluon-ssid-changer
+	kmod-forcedeth \
+	kmod-sky2 \
+	kmod-r8169 \
+	kmod-usb-core \
+	kmod-usb2 \
+	kmod-usb-hid \
+	kmod-usb-net \
+	kmod-usb-net-asix \
+	kmod-usb-net-dm9601-ether \
+	kmod-8139too
 endif
 
 ##	DEFAULT_GLUON_RELEASE
@@ -71,5 +112,9 @@ GLUON_PRIORITY ?= 0
 # Languages to include
 GLUON_LANGS ?= de en fr
 
+# Turn on building for ATH10K Devices by specifying mesh type
+GLUON_ATH10K_MESH ?= ibss
+
+# Print the default release (for external scripts)
 print_default_release:
 	@echo $(DEFAULT_GLUON_RELEASE)
