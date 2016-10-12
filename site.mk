@@ -113,7 +113,7 @@ GLUON_PRIORITY ?= 0
 GLUON_LANGS ?= de en fr
 
 # Turn on building for ATH10K Devices by specifying mesh type
-GLUON_ATH10K_MESH ?= ibss
+GLUON_ATH10K_MESH ?= 11s
 
 # Print the default release (for external scripts)
 print_default_release:
