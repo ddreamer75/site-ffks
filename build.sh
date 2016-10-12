@@ -87,7 +87,7 @@ die() {
 # e.g. v2016.1.5-4-beta
 get_version() {
     cd "${cur_dir}/.." || die "Could not change directory to ${cur_dir}/.."
-    tag_date=$(git show -s --format=%ci "${release}^{commit}")
+    tag_date=$(git show -s --format=%ci "${release}")
     cd "${OLDPWD}"
     # Commit count in this branch since the date of the commit's tag in the gluon repo
     commit_count=$(git rev-list --count --since "${tag_date}" @)
