@@ -1,0 +1,53 @@
+image: gcc
+
+before_script:
+   - apt update && apt -y install gawk unzip
+
+# sadly gitlabci is missing a build matrix :(
+ar71xx-generic:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-generic
+  artifacts:
+    paths:
+      - gluon-build/output
+
+ar71xx-nand:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-nand
+  artifacts:
+    paths:
+      - gluon-build/output
+
+mpc85xx-generic:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-nand
+  artifacts:
+    paths:
+      - gluon-build/output
+
+x86-64:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-nand
+  artifacts:
+    paths:
+      - gluon-build/output
+
+x86-generic:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-nand
+  artifacts:
+    paths:
+      - gluon-build/output
+
+x86-kvm_guest:
+  stage: build
+  script:
+    - make GLUON_TARGET=ar71xx-nand
+  artifacts:
+    paths:
+      - gluon-build/output
