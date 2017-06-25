@@ -1,8 +1,7 @@
 Freifunk Kassel
 ----------------
 
-Konfiguration für [Gluon](https://github.com/freifunk-gluon/) mit den Daten für das freifunk-Netz in Kassel.
-Wir arbeiten mit Gluon 2016.2.
+[Gluon](https://github.com/freifunk-gluon/)-Konfiguration für das Freifunk-Netz in Kassel. Wir arbeiten mit Gluon 2016.2.
 
 ## Building
 ```
