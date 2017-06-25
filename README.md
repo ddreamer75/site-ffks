@@ -11,3 +11,5 @@ cd gluon
 git clone https://github.com/freifunkks/site-ffks site
 site/build.sh
 ```
+
+Wir arbeiten an einer CI-Lösung für Firmware-Builds auf [GitLab](https://gitlab.com/freifunkks/site-ffks).
