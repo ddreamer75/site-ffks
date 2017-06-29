@@ -4,7 +4,7 @@ Freifunk Kassel
 Beta [Gluon](https://github.com/freifunk-gluon/)-Konfiguration für das Freifunk-Netz in Kassel. Wir arbeiten mit Gluon 2016.2.
 
 ## Building
-[![build status](https://gitlab.com/freifunkks/site-ffks/badges/beta/build.svg)](https://gitlab.com/freifunkks/site-ffks/commits/beta)
+[![build status](https://gitlab.com/freifunkks/site-ffks/badges/beta/build.svg)](https://gitlab.com/freifunkks/site-ffks/pipelines)
 
 Wir arbeiten an einer CI-Lösung für Firmware-Builds auf [GitLab](https://gitlab.com/freifunkks/site-ffks).
 
