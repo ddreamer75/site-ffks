@@ -23,7 +23,7 @@ ar71xx-nand:
 mpc85xx-generic:
   stage: build
   script:
-    - make GLUON_TARGET=ar71xx-nand
+    - make GLUON_TARGET=mpc85xx-generic
   artifacts:
     paths:
       - gluon-build/output
@@ -31,7 +31,7 @@ mpc85xx-generic:
 x86-64:
   stage: build
   script:
-    - make GLUON_TARGET=ar71xx-nand
+    - make GLUON_TARGET=x86-64
   artifacts:
     paths:
       - gluon-build/output
@@ -39,7 +39,7 @@ x86-64:
 x86-generic:
   stage: build
   script:
-    - make GLUON_TARGET=ar71xx-nand
+    - make GLUON_TARGET=x86-generic
   artifacts:
     paths:
       - gluon-build/output
@@ -47,7 +47,7 @@ x86-generic:
 x86-kvm_guest:
   stage: build
   script:
-    - make GLUON_TARGET=ar71xx-nand
+    - make GLUON_TARGET=x86-kvm_guest
   artifacts:
     paths:
       - gluon-build/output
