@@ -1,5 +1,5 @@
 GLUON_SITE_FEEDS="ssidchanger"
 
-PACKAGES_SSIDCHANGER_REPO=git://github.com/ffac/gluon-ssid-changer.git
-PACKAGES_SSIDCHANGER_COMMIT=dfb9063787b94e246e72a330f6a221e391495b4b
-PACKAGES_SSIDCHANGER_BRANCH=chaos-calmer
+PACKAGES_SSIDCHANGER_REPO=https://github.com/freifunk-nord/gluon-ssid-changer.git
+PACKAGES_SSIDCHANGER_COMMIT=b62a36b1e04610f8602716d993f4bc7c29c528fe # <-- set the newest commit ID here
+PACKAGES_SSIDCHANGER_BRANCH=lede

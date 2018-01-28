@@ -22,8 +22,7 @@ update:
 ifeq "$(wildcard ${GLUON_BUILD_DIR} )" ""
 	git clone ${GLUON_GIT_URL} ${GLUON_BUILD_DIR} -b ${GLUON_RELEASE};
 else
-	cd ${GLUON_BUILD_DIR}
-	git --git-dir=${GLUON_BUILD_DIR}/.git pull
+	cd ${GLUON_BUILD_DIR} && git fetch && git checkout ${GLUON_RELEASE}
 endif
 
 prepare: update

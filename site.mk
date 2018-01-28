@@ -14,12 +14,12 @@ GLUON_SITE_PACKAGES := \
 	gluon-config-mode-contact-info \
 	gluon-ebtables-filter-multicast \
 	gluon-ebtables-filter-ra-dhcp \
-	gluon-luci-admin \
-	gluon-luci-autoupdater \
-	gluon-luci-portconfig \
+	gluon-web-admin \
+	gluon-web-autoupdater \
+	gluon-web-network \
+	gluon-web-private-wifi \
 	gluon-mesh-batman-adv-15 \
 	gluon-mesh-vpn-fastd \
-	gluon-next-node \
 	gluon-radvd \
 	gluon-respondd \
 	gluon-setup-mode \
@@ -43,14 +43,14 @@ endif
 
 ifeq "$(ADD_WIFI_PKGS)" "yes"
 GLUON_SITE_PACKAGES += \
-	gluon-luci-wifi-config \
+	gluon-web-wifi-config \
 	gluon-ssid-changer
 endif
 
 # RaspberryPi Model 1B
 ifeq ($(GLUON_TARGET),brcm2708-bcm2708)
 GLUON_SITE_PACKAGES += \
-	gluon-luci-wifi-config \
+	gluon-web-wifi-config \
 	gluon-ssid-changer \
 	iw \
 	kmod-ath \
@@ -94,7 +94,7 @@ endif
 #			opkg compare-versions "$1" '>>' "$2"
 #		to decide if a version is newer or not.
 
-DEFAULT_GLUON_RELEASE := v2016.2.7
+DEFAULT_GLUON_RELEASE := v2017.1.4
 
 ##	GLUON_RELEASE
 #		call make with custom GLUON_RELEASE flag, to use your own release version scheme.

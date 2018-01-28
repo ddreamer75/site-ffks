@@ -1,7 +1,7 @@
 image: gcc
 
 before_script:
-   - apt-get update -qq && apt-get install -y -qq gawk unzip
+   - DEBIAN_FRONTEND=noninteractive apt-get update -qq && apt-get install -y -qq gawk unzip
 
 # sadly gitlabci is missing a build matrix :(
 ar71xx-generic:
