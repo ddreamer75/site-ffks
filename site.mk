@@ -17,7 +17,6 @@ GLUON_SITE_PACKAGES := \
 	gluon-web-admin \
 	gluon-web-autoupdater \
 	gluon-web-network \
-	gluon-web-private-wifi \
 	gluon-mesh-batman-adv-15 \
 	gluon-mesh-vpn-fastd \
 	gluon-radvd \
@@ -33,6 +32,10 @@ ifeq "$(GLUON_TARGET)" "ar71xx-generic"
 ADD_WIFI_PKGS = yes
 endif
 
+ifeq "$(GLUON_TARGET)" "ar71xx-tiny"
+ADD_WIFI_PKGS = yes
+endif
+
 ifeq "$(GLUON_TARGET)" "ar71xx-nand"
 ADD_WIFI_PKGS = yes
 endif
@@ -44,6 +47,7 @@ endif
 ifeq "$(ADD_WIFI_PKGS)" "yes"
 GLUON_SITE_PACKAGES += \
 	gluon-web-wifi-config \
+	gluon-web-private-wifi \
 	gluon-ssid-changer
 endif
 
@@ -52,6 +56,7 @@ ifeq ($(GLUON_TARGET),brcm2708-bcm2708)
 GLUON_SITE_PACKAGES += \
 	gluon-web-wifi-config \
 	gluon-ssid-changer \
+	gluon-web-private-wifi \
 	iw \
 	kmod-ath \
 	kmod-ath9k-common \
@@ -75,6 +80,20 @@ endif
 # add network drivers and usb stuff only to x86-generic
 # (where disk space probably doesn't matter)
 ifeq ($(GLUON_TARGET),x86-generic)
+GLUON_SITE_PACKAGES += \
+	kmod-forcedeth \
+	kmod-sky2 \
+	kmod-r8169 \
+	kmod-usb-core \
+	kmod-usb2 \
+	kmod-usb-hid \
+	kmod-usb-net \
+	kmod-usb-net-asix \
+	kmod-usb-net-dm9601-ether \
+	kmod-8139too
+endif
+
+ifeq ($(GLUON_TARGET),x86-64)
 GLUON_SITE_PACKAGES += \
 	kmod-forcedeth \
 	kmod-sky2 \
